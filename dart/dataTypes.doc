@@ -1,0 +1,109 @@
+Dart Data Types and Variables
+|============================|
+
+Data Types
+----------
+Data types define the kind of value a variable can store.
+
+Data Type             Description
+
+1.  Int               Whole numbers (e.g, 25, 30)
+2.  double            Decimal numbers (e.g, 99.5, 90.4)
+3.  num               Integers or decimal numbers (e.g, 25, 99.5)
+4.  String            Text (e.g, "flutter")
+5.  bool              Boolean values (true or false)
+6.  List              Ordered collection of items, duplicates allowed (e.g, List<int> number = [1,2,3,4,1])
+7.  Set               Collection of Unique items (e.g, Set<int> number = {1,2,3,4})
+8.  Map               Collection of Key-Value pairs (e.g, Map<String, int> scores = {'John' : 90})
+10. dynamic           Allows values of different types (e.g, 10, 99.5, "flutter")
+                      (Note: Prefer specific types such as int, String, and List<String> whenever possible. Use dynamic only when necessary.)
+
+
+Mutable vs Immutable
+|===================|
+
+1. Mutable 
+----------
+An Object is mutable when its contents or state can be changed after creation. 
+
+final numbers = [1,2,3];
+numbers.add(4);
+print(numbers); //[1,2,3,4]
+
+2. Immutable 
+------------
+An object is immutable when its state cannot be changed after creation. 
+
+const numbers = [1,2,3];
+//numbers.add(4); //Error
+
+
+Important = final prevents reassignment of variable, but it does not automatically make the object immutable. 
+
+final name = "flutter";
+//name = "dart"; //Error
+
+final items = [1,2,3];
+items.add(4); //Allowed
+
+Variable Declaration Keywords
+|============================|
+
+Dart Provides 4 commonly used variable declaration options: var, dynamic, final and const. 
+
+1. var - Type Inference
+var allows Dart to infer a variable's type for its initail value. Once inferred, the variable's type remain fixed
+
+var name = "flutter"; //String type
+
+name = "dart" //String only allowed
+//name = 100; // Error
+
+2. dynamic - Flexible Type
+dynamic allows a variable to hold values of different types. Type errors may therefore appear at runtime.
+
+dynamic value = 10;
+value = "flutter";
+value = true;
+
+3. final - Assign Once
+final allows a variable to be assigned only once. Its value can be determined at runtime.
+
+final currentTime = DateTime.now();
+// currentTime = DateTime.now(); //Error
+
+4. const - Compile-time Constant
+const is used for values that must known at compile time. A constant value cannot be reassigned or mutated.
+
+const pi = 3.14;
+const appName = "Flutter App";
+
+// pi = 3.14159; //Error
+
+var vs dynamic
+--------------
+var                                                           dynamic
+
+- Dart infers the type from the initial value                - The variable can hold different types.
+- The inferred type remains fixed.                           - The type can change during execution. 
+- provides stronger compile-time type checking               - Provides less compile-time type safety. 
+
+
+fianl vs const
+--------------
+final                                                         const
+
+- Assigned only once                                          - Compile-time constant. 
+- Can hold a runtime value.                                   - Value must be know at compile time. 
+- Prevents variable reassignment.                             - Prevents reassignment and constant-object mutation. 
+
+
+_____________________________________________________
+
+1. var: Infer the type automatically.
+2. dynamic: Allows values of different type.
+3. final: Assign a variable only once. 
+4. const: Define a compile-time constant.
+5. Mutable: Define a complie-time constant. 
+6. Immutable: The object's state cannot change.
+_____________________________________________________
