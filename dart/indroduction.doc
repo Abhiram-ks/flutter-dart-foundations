@@ -1,0 +1,39 @@
+Dart – Introduction
+|==================|
+
+1. Created by Google: Dart is a modern, object-oriented programming language introduced in 2011.
+2. Latest Version: Dart 3.13 / Flutter 3.47 (verify the latest stable release).
+3. Purpose: Designed to build fast, scalable mobile, web, desktop, and server applications.
+4. Flutter Integration: Used with Flutter to build cross-platform apps from a single codebase.
+5. Dart is versatile and supports both 
+  •	just-in-time (JIT) - JIT Compilation: Used during development for faster code changes and immediate results.
+  •	ahead-of-time (AOT) - AOT Compilation: Used for releasing apps to production, ensuring high performance by compiling the code into native machine code.
+
+
+Key Features of Dart
+--------------------
+1. Fast Development: Supports hot reload for quick code changes.
+2. Cross-Platform: Build apps for Android, iOS, web, and desktop.
+3. Type Safety: Uses static typing and type inference for reliable code.
+4. Null Safety: Helps prevent null-related runtime errors.
+5. Rich Ecosystem: Offers useful packages, libraries, and development tools.
+6. UI-Friendly: Works seamlessly with Flutter to build responsive, high-performance user interfaces.
+
+Disadvantages of Dart
+----------------------
+1. Limited Ecosystem: Fewer third-party packages than some mature languages.
+2. Smaller Community: A smaller developer community than JavaScript or Python.
+3. Learning Curve: Static typing and asynchronous programming may take time to learn.
+4. App Size: Flutter apps may have larger release sizes than some native apps.
+
+
+Compile Time vs Runtime
+|======================|
+
+Compile Time
+------------
+Compile-time is when the source code is converted into machine code (or bytecode) by a compiler before the program is run. During this phase, the compiler checks for errors like syntax issues, type mismatches, and missing references. If any compile-time errors are found, the code won’t run until those errors are fixed.
+
+Run Time 
+--------
+The phase when a program executes and performs tasks such as processing data, accepting user input, and interacting with the system. Runtime errors occur during execution and may cause unexpected behavior or crashes if not handled properly.
