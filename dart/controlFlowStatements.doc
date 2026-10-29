@@ -1,0 +1,27 @@
+Control flow statements
+|=====================|
+
+Control flow statements determine the execution order of your program. Instead of running code strictly from top to bottom, they allow your application to make decisions, repeat operations, and jumb b/w code blocks based on dynamic conditions. 
+
+1. Conditional Statements (Decision Making)
+-------------------------------------------
+Conditional Statements choose which block of code runs based on boolean(true/false) evaluations. 
+
+- if Statements: Runs a block of code only if the condition evaluates block if it.
+- if-else Statements: Runs one block if the condition is true, and an alternate block if it is false.
+- else if Ladder: Tests multiple sequential condition one by one until a true condition is met. 
+- switch Statements: Compares a single value against multple matching case options. Best used as clean alternative to large if-else chains.
+
+2. Looping Statements (Repetition)
+-----------------------------------
+Loops automate repetitive tasks by executing a block of code multiple times. 
+
+- for Loop: Repeats a code block a predetermined numbers of times using an index or counter. 
+- while Loop: Evaluates the condition first, then executes the block repeatedly as long as the condition remains true. 
+- do-while Loop: Executes the code block first at least once, then checks the condition to decide whether to repeat.
+
+3. Jumb Statements (Flow Disruption)
+------------------------------------
+1. break - Stop completely
+   Stop the loop immediatelty and moves to the code after the loop.
+   [Exits the loop or switch statement immediatelty. The break statement stops the loop completely and jumps out of it. Once break is exec]
