@@ -1,4 +1,4 @@
-Control flow statements
+1) Control flow statements
 |=====================|
 
 Control flow statements determine the execution order of your program. Instead of running code strictly from top to bottom, they allow your application to make decisions, repeat operations, and jumb b/w code blocks based on dynamic conditions. 
@@ -33,7 +33,7 @@ Loops automate repetitive tasks by executing a block of code multiple times.
    Exits a function and optionally returns a value.
 
 
-Ternary Operator
+2). Ternary Operator
 -----------------
 The ternary operator ( ? : ) takes theree parts: an evaluation question, the yes result, and the no result. 
      
@@ -51,5 +51,44 @@ int age = 20;
 String access = (age >= 18) ? "Allowed" : "Denied";
 
 
+3). For in and For-each
+|======================|
+
+Dart Provides different ways to iterate (go through) elements in a collection.
+
+Two commonly used approaches are:
+1. For-in loop
+2. forEach() method
 
 
+1. For-in Loop
+--------------
+- The for-in loop is used to access each elements in a collection one by one.
+- It automatically picks the next element from the collection and stores it in a variable. The loop continues until all elements have been accessed. 
+
+When to use it:
+- When you want to read or print collection elements.
+- When you want to check or process each item.
+- When you need to use break or continue to control the loop.
+
+2. forEach() method
+-------------------
+- forEach() is a method available on collections such as List, set, and map. 
+- It executes a function or callback once for each element in the collection.
+- You provide the action that should happen for every item, and forEach() automatically passes each element to that function.
+
+When to use it.
+- When you want to perform the same action for every element. 
+- When you want to execute a function or callback for each item.
+- When you want to keep iteration code short and simple.
+
+### Difference Between For-in and forEach()
+
+| Feature  | For-in                               | forEach()                         |
+| -------- | ------------------------------------ | --------------------------------- |
+| Type     | Loop statement                       | Collection method                 |
+| Working  | Iterates through elements one by one | Calls a function for each element |
+| Syntax   | `for (var item in list)`             | `list.forEach((item) {})`         |
+| break    | Supported                            | Not directly supported            |
+| continue | Supported                            | Not directly supported            |
+| Best for | Iteration with loop control          | Simple actions on every item      |

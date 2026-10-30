@@ -15,18 +15,13 @@
 In dart, null means "nothing" or "empty value". If you try to run actions on something that doesn't exist. your app crashes with the infamous NoSuchMethodError (often called the billion dollar mistake).
 Null-aware operators are safety guards. 
 
-Operator            Name                           Short Meaning                      
-______________________________________________________________________________________
-
-?.             Null-aware access                  Call this only if it's not null   
-
-??             if-null (fallback)                 Use left side, or fallback to right side
-
-??=            Null-aware assignment              Assign value only if variable is empty.
-
-!              Null assertion                     Trust me, It's Not null.
-
-...?           Null-aware spread                  Unpack list only if list exists
+| Operator | Name                  | Short Meaning                                     |
+| -------- | --------------------- | ------------------------------------------------- |
+| `?.`     | Null-aware access     | Call this only if it's not null.                  |
+| `??`     | If-null (fallback)    | Use the left side, or fallback to the right side. |
+| `??=`    | Null-aware assignment | Assign value only if the variable is empty.       |
+| `!`      | Null assertion        | Trust me, it's not null.                          |
+| `...?`   | Null-aware spread     | Unpack the list only if the list exists.          |
 
 
 
