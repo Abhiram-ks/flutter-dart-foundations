@@ -1,0 +1,101 @@
+1. Spread Operator (...)
+------------------------
+- Represented by 3 dots (...). It's a simple way to add all elements of one (list, set, map) into another list.
+- That used to expand elements from one list or collection into another. This makes it easy to combine lists or add elements from one collection to another without manually copying or adding them.
+
+2. Arrow Functions
+------------------
+- Arrow function is a shorter way to write a function when itt only has one line of code. use an arrow (=>) instead of curly braces ({}) to define the function. It's handy when you want to kepp code clean and easy to read.
+- Arrow function is a shorthand way of writing a simple function that has only one expression. 
+- Arrow functions are only for single-line functions.
+- The expression after the arrow automatically return (no need for the return keyword)
+
+3. Null-aware operators
+-----------------------
+In dart, null means "nothing" or "empty value". If you try to run actions on something that doesn't exist. your app crashes with the infamous NoSuchMethodError (often called the billion dollar mistake).
+Null-aware operators are safety guards. 
+
+Operator            Name                           Short Meaning                      
+______________________________________________________________________________________
+
+?.             Null-aware access                  Call this only if it's not null   
+
+??             if-null (fallback)                 Use left side, or fallback to right side
+
+??=            Null-aware assignment              Assign value only if variable is empty.
+
+!              Null assertion                     Trust me, It's Not null.
+
+...?           Null-aware spread                  Unpack list only if list exists
+
+
+
+1. Null-Aware Access ( ?. )
+---------------------------
+
+- What it does: Reads a property or method safely. If the object is null, It stops right there and returns null instead of crashing.
+
+Class BillingContact {
+ String email = 'finance@acme.corp";
+}
+
+class Workspace {
+ BillingContact? billingContact; //might be null
+}
+
+void main() {
+  Workspace? workspace; // Entire workspace is null initially
+
+  //SAFE: return null, does NOT crash!
+  String? email = workspace?.billingContact?.email;
+  print(email);
+}
+
+2. The Default/ Fallback Operator ( ?? )
+----------------------------------------
+- Provides a guaranteed backup value when the original values is null. 
+
+String? selectedPlan; // User hasn't chosen one (null)
+
+// IF selectedPlan is null, use "starter"
+String activePlan = selectedPlan ?? "starter";
+print(activePlan)  //Output: starter
+
+3. Null-Aware Assignment ( ??= )
+--------------------------------
+- Assigns a value to a vairable only if that variable currently holds null. If it already has data, it leaves it untouched. 
+
+String? userSessionToken;
+
+//step 1: It's null, so the token gets assigned
+UserSessionToken ??= "token_abc_123";
+print(userSessionToken); //Output: token_abc_123;
+
+4. Null-Aware Spread Operator ( ...? )
+--------------------------------------
+- Unpacks items from a collection into another collection, safely skipping the operation if the source collection is null. 
+
+List<String> coreFeatures = ["Analytics", "Export CSV"];
+List<String>? betaFeatures; // API returned null (no beta access)
+
+// Safely unpacks coreFeatures; ignores betaFeatures without error
+List<String> dashboardWidgets = [
+  ...coreFeatures,
+  ...?betaFeatures, // Does not crash!
+];
+
+print(dashboardWidgets); // Output: [Analytics, Export CSV]
+
+5. Null Assertion ( ! )
+-----------------------
+- Tells the Dart compiler: "I guarantee this is not null, stop warning me."
+
+String? verifiedOrgId = "org_98765";
+
+// You are 100% sure verifiedOrgId has a value:
+String finalId = verifiedOrgId!; 
+
+// DANGER:
+String? emptyField = null;
+// String boom = emptyField!; // CRASH: Bad state: Null check operator used on a null value
+

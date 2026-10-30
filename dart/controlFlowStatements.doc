@@ -24,4 +24,32 @@ Loops automate repetitive tasks by executing a block of code multiple times.
 ------------------------------------
 1. break - Stop completely
    Stop the loop immediatelty and moves to the code after the loop.
-   [Exits the loop or switch statement immediatelty. The break statement stops the loop completely and jumps out of it. Once break is exec]
+   [Exits the loop or switch statement immediatelty. The break statement stops the loop completely and jumps out of it. Once break is executed, no more iterations of the loop will happen, and the program moves to the next part of the code after the loop]
+
+2. continue - (Skip one item, keep gooing)
+   Skips the current iteration and proceeds with the next one. The continue statement skips the current iterations of the loop but does not stop the entire loop. The loop continues with the next iteration.
+
+3. return 
+   Exits a function and optionally returns a value.
+
+
+Ternary Operator
+-----------------
+The ternary operator ( ? : ) takes theree parts: an evaluation question, the yes result, and the no result. 
+     
+     ___________________________________________
+
+     condition ? value_if_true : value_if_false
+     ___________________________________________
+
+Read the symbols like punctuation in plain english:
+- ? = "is this ture?"
+- : = "Otherwise/Else"
+
+example:
+int age = 20;
+String access = (age >= 18) ? "Allowed" : "Denied";
+
+
+
+
