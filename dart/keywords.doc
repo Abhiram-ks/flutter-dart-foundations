@@ -1,16 +1,16 @@
-1. Spread Operator (...)
+1). Spread Operator (...)
 ------------------------
 - Represented by 3 dots (...). It's a simple way to add all elements of one (list, set, map) into another list.
 - That used to expand elements from one list or collection into another. This makes it easy to combine lists or add elements from one collection to another without manually copying or adding them.
 
-2. Arrow Functions
+2). Arrow Functions
 ------------------
 - Arrow function is a shorter way to write a function when itt only has one line of code. use an arrow (=>) instead of curly braces ({}) to define the function. It's handy when you want to kepp code clean and easy to read.
 - Arrow function is a shorthand way of writing a simple function that has only one expression. 
 - Arrow functions are only for single-line functions.
 - The expression after the arrow automatically return (no need for the return keyword)
 
-3. Null-aware operators
+3). Null-aware operators
 -----------------------
 In dart, null means "nothing" or "empty value". If you try to run actions on something that doesn't exist. your app crashes with the infamous NoSuchMethodError (often called the billion dollar mistake).
 Null-aware operators are safety guards. 
@@ -94,3 +94,121 @@ String finalId = verifiedOrgId!;
 String? emptyField = null;
 // String boom = emptyField!; // CRASH: Bad state: Null check operator used on a null value
 
+
+4). Parameters and Arguments
+|===========================|
+
+1. Arguments
+------------
+What is means: Arguments are the actual values or expressions passed to a function when calling it.
+
+2. Parameters
+-------------
+What is means: Parameters are variables defined inside a function declaration. They act as placeholders that receive values when the function is called.
+
+void greet(String name) { // name = parameter
+ print("Hello, $name");
+}
+
+void main(){
+  greet("Name");   // "Name" = Argument
+}
+
+Types of Parameters:
+-------------------
+Dart Paramenters are mainly classified into two categories:
+
+1. Positional Paramenters
+2. Named Parameters
+
+Paramenter Classification:
+
+
+| Main Type          | Parameter Type             | Syntax          | Description                                              
+----------------------------------------------------------------------------------------------------------------------
+| Positional         | Required Positional        | `( )`           | Arguments must follow the defined order.     
+| Positional         | Optional Positional        | `[ ]`           | Arguments are optional and order-based.
+| Named              | Required Named             | `{required}`    | Arguments require named parameters.
+| Named              | Optional Named             | `{ }`           | Arguments are optional and name-based.
+
+
+
+1. Positional Parameters:
+-------------------------
+Positional parameters are parameters where values are passed to a function according to their position or order. 
+
+There are two types:
+
+A. Required Positional parameters
+- values must be provided when calling the function 
+- Arguments must follow the correct order.
+- No special brackets are required. 
+
+Example: 
+
+void studentDetails(String name, int age) {
+  print('$name, $age');
+}
+
+void main(){
+  studentDetails("Abhiram", 23);
+}
+
+B. Optional Positional Paramenters
+- Optional Positional parameters are parameters that do not need to be passed when calling a function. 
+- Use square brackts [].
+- You can skip these arguments.
+- If no value is provided, the default value is null unless you specify a deault value.
+- They must come after required postional parameters.
+
+void studentDetails(String name, [int? age]) { // [int age = 23]
+  print('$name, $age');
+}
+
+void main(){
+  studentDetails("Abhiram);
+}
+
+2. Named Paramenters: 
+---------------------
+Named parameters allow you to pass values using parameter names instead of their positions. 
+- Use curly brackts { }.
+- The order of arguments does not matter.
+- They improve code readability.
+- Named parameters are optional by default. 
+
+There are two types:
+
+A. Required Named Paramenters
+- Required named parameters are parameters that must be provided when calling a function.
+- Use curly brackts { }.
+- Use the required keyword. 
+- The arguments must be passed using its name. 
+
+void studentDetails({
+  required String name,
+  required int age
+}) {
+  print('$name, $age');
+}
+
+void main(){
+  studentDetails(age: 23, name: 'Abhiram');
+}
+
+B. Optional Named Parameters
+- Optional named parameters do not need to be passed when calling a function. 
+- Use curly brackets { }.
+- NO required  keyword is needed. 
+- If no value is provided, the parameter recives null unless a default values is specified. 
+
+void studentDetails({
+  required String name,
+  int? age  // int age = 23
+}) {
+  print('$name, $age');
+}
+
+void main() {
+  studentDetails(name: "Abhiram");
+}
