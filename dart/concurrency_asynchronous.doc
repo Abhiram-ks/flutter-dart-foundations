@@ -1,0 +1,174 @@
+Asynchronous Programming, Futures, Streams & Isolates
+|====================================================|
+
+This is an important topic in dart and flutter because almost every real-world application uses asynchronous operations
+
+Examples:
+- Fetch data from a REST API.
+- Download images or files.
+- Upload attachments. 
+- Listen to WebSocket messages. 
+- Read data from local storage.
+- Perform heavy JSON parsing.
+- Process background tasks. 
+
+
+1). First understand how Dart executes code.
+-------------------------------------------
+Before learning Future, async, await, Streams, and isolates, you need to understand how dart executes instructions. 
+
+There are two important execution concepts: 
+    
+    1. Synchronous execution
+    2. Asynchronous execution
+
+1.1 Synchronous Programming
+
+Definition: Synchronous Programming executes instructions one after another. Each operation must finish before the next operation starts. 
+- Executes sequentially.
+- Follow the order of the code. 
+- The next operation waits until the current operation finishes. 
+- A long-running Synchronous operation can block the execution thread.
+
+Examples:
+void main(){
+  print("Start");
+  print("Processing");
+  print("End");
+}
+
+//Output: 
+// Start
+// Processing
+// End
+
+Real-world examples:
+
+imagine a restaurant with one employee:
+- The employee takes an order.
+- Prepares the food.
+- Serves the food.
+- Only then takes the next order. 
+
+1.2 Asynchronous Programming
+
+Definition: Asynchronous programming allows a program to start an operation and continue exectuting other work while waiting for that operation to complete.
+- Does not require the program to wait synchronously for the result. 
+- Useful for notwork requests, file operations, and other waiting tasks. 
+- Helps keep fluter application responsive. 
+- Results are handled when they become available. 
+
+Example:
+Future<void> main() async {
+  print("start");
+  await Future.delayed(
+    Duration(seconds: 2),
+  )
+
+  print("Processing");
+  print("End");
+}
+
+// Output:
+// Start
+// Waits for 2 seconds
+// Processing
+// End
+
+Real-world examples:
+
+Imagine ordering food through an online application:
+- You place an order.
+- The restaurant starts preparing the food.
+- You can continue using your phone. 
+- When the food is ready, you receive a notification. 
+
+You don't need a wait without doing anything.
+
+important: Asynchronous programming does not automatically mean multiple tasks are exectuting at the same time. It means your program can handle other work while waiting for an operation. 
+
+2). understanding Future
+-------------------------
+
+2.1 What is a Future?
+
+Definition: A Future represents a result that will become available at some point in the future. 
+
+It represents the completion of an asynchronous operations, which can produce either.
+- A value (Success).
+- An error (failure).
+
+A Future produces one eventual result or error, not multiple results. 
+
+Future<String> getUserName() {
+    return Future.delayed(
+        Duration(seconds: 2),
+        () => "Abhiram",
+    );
+}
+
+void main() async {
+    print("Fetching user...");
+    String name = await getUserName();
+    print(name);
+}
+
+2.2 Future states
+
+A Future has three lifecycle states:
+
+| state                 | Description
+------------------------------------------------------------------------------------
+| Pending               | The operation has not completed yet.
+| completed with value  | The operation finished successfully and returned a value.
+| completed with error  | The operation failed and returned an error. 
+------------------------------------------------------------------------------------
+
+2.3 Why do we need Future?
+
+Consider a Flutter application that fetches customer information from an API.
+The API request may take some time because of network speed or server processing. 
+A Future allows the application to handle that waiting operation without blocking the UI thread. 
+
+Common real-world Future operations:
+- REST API requests using Dio.
+- Reading files. 
+- Accessing SharedPreferences.
+- Firebase operations. 
+- Database queries. 
+- Uploading and downloading files. 
+
+2.4 Handiling Future errors.
+
+Asynchronous operations can fail. We should handle errors using try-catch.
+
+Future<String> getUserName() async {
+    try {
+        await Future.delayed(
+            Duration(seconds: 1),
+        );
+
+        return "User loaded successfully";
+    }catch (e) {
+        return "something went wrong";
+    }
+}
+
+void main() async {
+  String result = await getUserName();
+  print(result);
+}
+
+3). Understanding async keyword
+-------------------------------
+Definition: The async keyword is used to mark a function as asynchronous.
+- It allows you to use await inside the function.
+- An async function return a Future.
+- A returned value is wrapped in a Future.
+- It makes asynchronous code easier to read and manage. 
+
+Syntax:
+Future<T> functionName() async {
+    // Asynchronous operatios
+}
+
