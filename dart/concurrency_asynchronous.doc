@@ -424,3 +424,170 @@ stream.listen((data) {
 stream.listen((data) {
     print(data);
 }); // StateError
+
+B. Broadcast Stream
+
+Definition: A Broadcast Stream allows multiple listeners to subscribe to the same Stream and receive events simultaneously.
+
+Explanation:
+- Multiple listeners can listen to the same Stream.
+- Every active listener receives the events emitted while it is subscribed.
+- Each listener receives the same emitted event independently.
+- A listener joining late does not automatically receive previously emitted events.
+- One listener can cancel its subscription without affecting other active listeners.
+- It is useful when the same event needs to be delivered to multiple parts of an application.
+
+Real-world example
+Imagine a live cricket score application.
+
+When a new score is received:
+- The Home Screen displays the updated score.
+- The Scorecard Screen updates the batting details.
+- The Notification Section displays the latest match update.
+All three sections listen to the same event source and receive the newly emitted event.
+
+Example:
+
+void main() {
+    final controller = StreamController<int>.broadcast();
+
+    controller.stream.listen((data) {
+        print("Listen 1: $data");
+    });
+
+    controller.stream.listen((data) {
+      print('Listener 2: $data');
+    });
+
+    controller.add(10);
+    controller.add(20);
+    controller.add(30);
+
+    controller.close();
+
+}
+
+
+Output:
+Listener 1: 10
+Listener 2: 10
+
+Listener 1: 20
+Listener 2: 20
+
+Listener 1: 30
+Listener 2: 30
+
+Important: If a listener subscribes after and event has already been emitted, It will not receive that previous event.
+
+C. Key Difference:
+
+| Features                  | Single-subscription                             | Broadcast 
+-----------------------------------------------------------------------------------------------------------------------------------
+| Listener                  | Only one                                        | Multiple
+| Event delivery            | One listener                                    | All active listeners
+| Late listener             | Can receive buffered events                     | Misses previous events
+| Subscription              | One subscription                                | Multiple subscriptions
+| Cancellation              | Cannot subscribe again                          | Other listeners remain active
+| Use case                  | Single consumer                                 | Multiple consumers -----------------------------------------------------------------------------------------------------------------------------------
+
+D. When should you use them in Flutter?
+
+| Situation                                                                   | RecommendedStream
+-----------------------------------------------------------------------------------------------------------------------------------
+| One-time data processing                                                    | Single-subscription
+| Listening to one API event sequence                                         | Single-subscription
+| WebSocket events shared across multiple screens                             | Broadcast
+| App-wide notification updates                                               | Broadcast
+| Multiple widgets listening to the same event source                         | Broadcast
+-----------------------------------------------------------------------------------------------------------------------------------
+
+Flutter development tip: When using StreamController, you can create these two types:
+
+// Single-subscription
+final controller = StreamController<int>();
+
+// Broadcast
+final controller = StreamController<int>.broadcast();
+
+E. StreamController
+
+Definition: A StreamController is used to create and control a Stream manually. It allows us to add data events, send errors, and close the Stream when it is no longer needed. 
+
+Important Methods
+
+| Method                          | Purpose
+---------------------------------------------------------------------------------------------------- 
+| add()                           | Adds a data event to the Stream.
+|                                    (Sends data.)
+| addError()                      | Sends an error event to the Stream.
+|                                    (Sends an error.)
+| close()                         | Closes the Stream and prevents further events from being added.
+|                                    (Allows listeners to receive events.)
+| stream                          | Provides access to the Stream so listeners can recive events.
+|                                    (Stops the Stream) 
+-----------------------------------------------------------------------------------------------------
+
+Example:
+
+void main() {
+  final controller = StreamController<int>();
+
+  // Listen to Stream events
+  controller.stream.listen(
+    (data) {
+      print('Data: $data');
+    },
+    onError: (error) {
+      print('Error: $error');
+    },
+    onDone: () {
+      print('Stream completed');
+    },
+  );
+
+  // Add events
+  controller.add(10);
+  controller.add(20);
+
+  // Add an error
+  controller.addError('Something went wrong');
+
+  // Close the Stream
+  controller.close();
+}
+
+Output:
+Data: 10
+Data: 20
+Error: Something went wrong
+Stream completed
+
+7). Understanding async vs async*
+---------------------------------
+Both async and async* are used to work with asynchronous programming in Dart, but they serve different Purpose.
+- async is used when a function Perform asynchronous operations and returns a single eventual result through a Future.
+- async* is used when a function generates multiple asynchronous values over time through a stream.
+
+Key differences
+
+| Features            | async                                   | async*
+-----------------------------------------------------------------------------------------------------------
+| Purpose             | Performs asynchronous operations        | Generates asynchronous sequences
+| Returns             | Future<T>                               | Stream<T>
+| Result              | One eventual result                     | Multiple values over time
+| Main keyword        | await                                   | yield
+| Execution           | Returns a Future                        | Produces values when listened to
+| Example             | API request                             | Live event updates
+------------------------------------------------------------------------------------------------------------
+
+A. async 
+Definition: The async keyword is used to define an asynchronous function that returns a Future containing a result that becomes available later.
+
+Explanation:
+- Used for operations that may take time to completed.
+- Returns a Future.
+- Uses await to wait for another asynchronous operations to complete.
+- Produces one eventual result (or an error).
+
+B. async*
