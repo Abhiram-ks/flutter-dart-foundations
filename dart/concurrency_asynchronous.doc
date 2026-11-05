@@ -591,3 +591,294 @@ Explanation:
 - Produces one eventual result (or an error).
 
 B. async*
+
+Definition: The async* keyword is used to define an asynchronous generator function that produces multiple values over time using a Stream.
+
+Explanation:
+- Used when multiple values need to be emitted over time.
+- Returns a Stream.
+- Uses yield to emit individual values.
+- Each emitted value is delivered to active Stream listeners.
+- The function continues generating values until it completes.
+
+8). Isolates
+-------------
+Isolates are an important concepts in Dart, especially when developing high-Performance Flutter application.
+
+Before understanding the code, remember one important concepts:
+Isolates help Dart Perform heavy computations without blocking the main execution flow. 
+
+8.1 What is an isolate?
+
+Definition: An Isolate is an independent unit of execution in Dart that has its own memory, its own event loop, and its own execution environment.
+
+Explanation:
+- Each isolate maintains its own memory, so variables are not directly shared b/w isolates.
+- Each isolate has its own event loop to process events and asynchronous tasks. 
+- Isolates work independently of each other.
+- They communicate by sending and receiving messages instead of directly accessing each other's variables.
+- They can execute computations in parallel on different CPU cores when the runtime and platform support it.
+
+Easy way to understand:
+
+Think of isolates as separate workers in a company.
+- Each worker has their own workspace.
+- Each worker performs their assigned tasks independently.
+- Workers cannot directly access another worker's workspace.
+- They communicate by sending messages or sharing results. 
+
+Similarly, each isolate has itw own memory and communicate through message passing.
+
+Important characteristics
+
+| Characteristic                                  | Explanation
+-----------------------------------------------------------------------------------------------------------------
+| Independent memory                              | Each isolate has its own memory space.
+| Own event loop                                  | Each isolate processes its own events.
+| No shared mutable memory                        | Isolates cannot directly modify each other's variables.
+| Message passing                                 | They communicate by sending messages.
+| Parallel execution                              | They can perform work on different CPU cores when supported.
+-----------------------------------------------------------------------------------------------------------------
+
+Important correction: Isolates are Dart's concurrency mechanism(concurrency is the ability of a program to manage multiple tasks during overlapping periods of time without necessarily exectuting them simultaneously. A program can handle multiple tasks without waiting for one task to completely finish before managing another task.). They are not ordinary shared-memory threads. Each isolate operations independently and communicates through messages.
+
+8.2 Why do we need isolates?
+
+Definition: Isolates are used to perform CPU-intensive operations independently so that heavy computations do not block the main isolate.
+
+Now imagine performing all this heavy processing synchronously on the main isolate.
+
+What happens?
+- The main isolate starts processing the large JSON response.
+- The CPU spends time parsing and transforming the data.
+- The main isolate cannot process other Dart events while that synchronous work is running.
+- UI-related work gets delayed.
+- The application may appear frozen or unresponsive.
+
+Important: An API request alone does not necessarily require an isolate. Network operations are generally handled asynchronously. Isolates are especially useful for expensive CPU-bound work such as parsing huge JSON responses.
+
+8.3 Main Isolate
+Definition: The Main Isolate is the primary execution environment of a Dart or Flutter application. It is responsible for running the application's main Dart code and handling UI-related work.
+
+Responsibilities:
+- Executes the main application code.
+- Handles Flutter UI-related work.
+- Processes user interactions and application events.
+- Runs animations and UI-related callbacks.
+- Handles asynchronous operations and their callbacks.
+
+8.4 Backgorund Isolate:
+
+Definition: A Background Isolate is an additional, independent isolate used to perform CPU-intensive tasks without blocking the main isolate.
+
+Responsibilities:
+- Performs heavy JSON parsing.
+- Processes large amounts of data.
+- Handles image processing.
+- Performs complex mathematical calculations.
+- Executes large data transformations.
+
+Main Isolate vs Backgorund Isolate
+
+| Features                         | Main Isolates                                      | Backgorund Isolates 
+---------------------------------------------------------------------------------------------------------------------------------------------------
+| Purpose                          | Application execution                              | Heavy computation
+| UI handling                      | Handles Flutter UI                                 | Does not directly manage the main UI
+| Memory                           | Own memory	                                        | Separate memory
+| Event loop	                   | Own event loop	                                    | Own event loop 
+| Communication                    | Message passing	                                | Message passing
+| Example	                       | Dashboard updates                                  | Large JSON parsing
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+8.5 How do Isolates communicate?
+
+Definition: Isolates communicate with each other through message passing using ports instead of directly accessing each other's variables.
+Dart provides two important classes:
+
+A. ReceivePort
+Definition: A ReceivePort is used to receive messages sent from another isolate.
+
+Explanation:
+- It creates a communication endpoint for receiving messages.
+- It provides a SendPort that another isolate can use to send messages to it.
+- It receives messages through its Stream interface.
+
+Easy way to remember:
+-------------------------------------
+| ReceivePort → Receives messages.  |
+-------------------------------------
+
+B. SendPort
+Definition: A SendPort is used to send messages from one isolate to another isolate's ReceivePort.
+
+Explanation: 
+- It sends messages to the corresponding ReceivePort.
+- Messages can contain supported transferable data.
+- It allows isolates to exchange information without sharing memory directly.
+
+Easy way to remember:
+-------------------------------
+| SendPort → Sends messages.  |
+-------------------------------
+
+C. Isolate.spawn()
+Definition: Isolate.spawn() create and start a new isolate to execute a specified entry-point function.
+
+Explanation:
+- starts another isolate.
+- Executes the provided function in that isolate.
+- Can pass initial data, such as a SendPort, to the new isolate.
+
+D. Isolate.exit()
+Definition: Isolate.exit() terminates the current isolate and can optionally send a final message to another isolate before termination.
+
+Explanation:
+- Stop the current isolate.
+- Can send a final result through a SendPort.
+- The isolate cannot continue executing after it exits.
+
+Important methods summary
+
+| Component                | Definition
+---------------------------------------------------------------------------------------------------
+| ReceivePort              | Creates an endpoint to receive Messages.
+| SendPort                 | Sends messages to another isolate.
+| Isolate.spawn()          | Creates and starts a new isolate.
+| Isolate.exit()           | Terminates the current isolate, optionally sending a final message.
+---------------------------------------------------------------------------------------------------
+
+8.6 Practical Dart Example
+Let's understand how to create an isolate and communicate between the main and background isolates.
+Scenario: The main isolate sends a calculation task to a background isolate. The background isolate calculates the result and sends it back.
+
+code example:
+
+import 'dart:isolate';
+
+// Backgorund isolate function
+void calculate(SendPort sendPort) {
+    int result = 10 + 20;
+
+    // Send result to the main isolate
+    sendPort.send(result);
+}
+
+Future<void> main() async {
+  // Create ReceivePort
+  final receivePort = ReceivePort();
+  
+
+  //Creates and start background isolate
+  await Isolate.spawn(
+    calculate,
+    receivePort.sendPort,
+  );
+
+  // Receive result
+  final result = await receivePort.first;
+
+  print(result);
+  receivePort.close();
+}
+
+
+Output:
+30
+
+Step-by-step explanation
+- Import dart:isolate: Provides the classes and methods required to work with isolates.
+- Create ReceivePort: The main isolate creates a ReceivePort to receive messages.
+- Get SendPort: receivePort.sendPort provides the communication endpoint that can be passed to the background isolate.
+- Create a new isolate: Isolate.spawn() starts another isolate and executes the calculate() function.
+- Perform calculation: The background isolate calculates 10 + 20.
+- Send the result: sendPort.send(result) sends the calculated result to the main isolate.
+- Receive the result: receivePort.first waits for the first message from the ReceivePort.
+- Close ReceivePort: receivePort.close() releases the receiving port after the message is received.
+
+
+9). compute() function
+------------------------
+
+Flutter also provides a convenient function called compute() for executing expensive computations.
+
+Definition: compute() runs a computation separately from the main isolate on native platforms and returns its result through a Future.
+
+Example:
+import 'package:flutter/foundation.dart';
+
+int calculate(int value) {
+  return value * 10;
+}
+
+Future<void> main() async {
+  final result = await compute(calculate, 10);
+
+  print(result);
+}
+
+Important points to remember
+- Every isolate has its own memory and event loop.
+- Isolates do not directly share mutable memory. 
+- Isolates communicates through message passing.
+- SendPort sends messages.
+- ReceivePort receive messages.
+- Isolates.spawn() creates a new isolate.
+- Isolates.exit() terminates the current isolate.
+- Isolates help prevent CPU-intensive operations from blocking the main isolate.
+- Isolates are useful for heavy computations, not ordinary asynchronous API calls.
+
+10. Dart Isolate vs Flutter compute()
+-------------------------------------
+
+First, understand one important thing:
+
+Isolate and compute() are not two completely different concurrency mechanisms. compute() is a convenient Flutter function that uses an isolate to perform computations separately on native platforms.
+
+Let's understand their differences, how they work with Future and Stream, and when to use each in real Flutter applications.
+
+A. What is an Isolate?
+Definition: Definition: An Isolate is an independent execution environment in Dart that has its own memory and event loop. It allows CPU-intensive tasks to execute independently without blocking the main isolate.
+
+Important points
+- Isolates have separate memory.
+- They communicate using SendPort and ReceivePort.
+- They can perform CPU-intensive tasks independently.
+- They can execute in parallel on different CPU cores when supported.
+- They do not directly share mutable variables.
+
+B. What is compute()?
+Definition: compute() is a Flutter utility function that executes a computation separately from the main isolate on native platforms and returns the result through a Future.
+
+In simple words:
+Instead of manually creating an isolate using Isolate.spawn(), you can use compute() to execute a function in the background with less code.
+
+10.1 Major differences between Isolate and compute()
+
+| Feature                         | Isolate                                         | compute()
+------------------------------------------------------------------------------------------------------------------------------------------
+| Type	                          | Dart isolate API	                            | Flutter utility function
+| Purpose	                      | Creates an independent isolate	                | Runs a computation separately
+| Code complexity	              | More code	                                    | Less code
+| Communication                   |	SendPort / ReceivePort	                        | Input and returned result
+| Return type	                  | Isolate when spawned	                        | Future<R>
+| Multiple messages               | Yes	                                            | Not designed for continuous messages
+| Lifecycle                       |	You manage its lifecycle	                    | Managed by the helper
+| Best use	                      | Continuous background processing	            | One-time heavy computation
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Easy way to understand
+Imagine you have a task to process customer records.
+
+compute() – One-time computation
+1. Send input data
+2. Perform computation
+3. Return one result through Future
+4. Complete the operation
+
+Isolate.spawn() – Independent worker
+1. Create a background isolate
+2. Send multiple messages
+3. Receive multiple results
+4. Continue processing until finished
+
+10.2
