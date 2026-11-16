@@ -212,3 +212,40 @@ void studentDetails({
 void main() {
   studentDetails(name: "Abhiram");
 }
+
+5). Mixins
+|==========|
+
+In Dart, Mixins are a way to reuse code in multiple classes without using inheritance. 
+A mixin allows you to create a reusable set of methods and properties and add them to multiple classes using the with keyword. 
+
+Example: 
+mixin NotificationMixin {
+  void sendNotification(){
+    print('Notification send successfully');
+  }
+}
+
+class Admin with NotificationMixin {}
+class Employee with NotificationMixin {}
+class Manager with NotificationMixin {}
+
+void main(){
+  Admin admin = Admin();
+  Employee employee = Employee();
+  Manager manager = Manager();
+
+  admin.sendNotification();
+  employee.sendNotification();
+  manager.sendNotification();
+}
+
+5.1 Understand the three important keywords
+
+---------------------------------------------------------------------
+| Keywords           | Purpose                                      |
+---------------------------------------------------------------------
+| mixin              | Creates a reusable mixin                     |
+| with               | Adds mixin functionality to a class          |
+| on                 | Restricts which classes can use a mixin      |
+---------------------------------------------------------------------

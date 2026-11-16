@@ -881,4 +881,69 @@ Isolate.spawn() – Independent worker
 3. Receive multiple results
 4. Continue processing until finished
 
-10.2
+11). Understanding Threading and Parallelism
+---------------------------------------------
+
+These concepts are related to isolates, but they are not the same thing. 
+
+11.1 What is a Thread?
+
+Definition: A thread is a unit of execution within a process. Multiple threads can execute tasks independently within the same process. 
+
+In traditional multithreaded programming, threads can share memory, which requires synchronization to avoid data conflicts.
+
+11.2 What is Single-threaded execution?
+
+Single-threaded execution means one execution thread processes one piece of synchronous code at a time.
+
+Dart code inside a normal isolate executes on one thread at a time.
+
+11.3 What is concurrency?
+concurrency is the ability of a program to manage multiple tasks during overlapping periods of time without necessarily exectuting them simultaneously. A program can handle multiple tasks without waiting for one task to completely finish before managing another task.
+
+11.4 What is Parallelism? 
+Definition: Parallelism means multiple tasks execute at the same time, generally using multiple CPU cores. 
+Dart isolates can achieve parallel execution when sheduled on different CPU cores. 
+
+11.4 Difference b/w concurrency and Parallelism
+
+| Feature	         | Concurrency	                      | Parallelism 
+------------------------------------------------------------------------------------------------------
+| Meaning	         | Multiple tasks make progress	      | Multiple tasks execute simultaneously
+| Execution	         | Can overlap	                      | Happens at the same time
+| CPU cores	         | One or more	                      | Typically multiple
+| Dart example	     | Multiple Futures	                  | Multiple Isolates
+------------------------------------------------------------------------------------------------------
+
+Easy real-world examples:
+
+Imagine a restaurant:
+- Concurrency: One employee handles several orders by switching between tasks while waiting.
+- Parallelism: Multiple employees prepare different orders simultaneously.
+
+l2). What is memory management?
+---------------------------------
+Definition: Memory management is the process of allocating, using, and releasing memory while an application is running.
+
+Dart manages memory automatically using a Garbage Collector (GC).
+You generally do not need to manually allocate and free memory.
+
+12.2 What is Garbage Collection?
+
+Definition: Garbage Collection is the process of identifying objects that are no longer reachable by the running program and reclaiming their memory.
+
+Example: 
+void main() {
+  List<String> names = [
+    "Abhiram",
+    "Rahul",
+    "Arun",
+  ];
+
+  print(names);
+
+  names = [];
+
+  print(names);
+}
+
