@@ -1,0 +1,205 @@
+Dart OOP Concepts 
+|================|
+
+1). What is OOP in Dart?
+-------------------------
+
+OOP stands for object-Oriented Programming. 
+It is a programming approach where we organize code using classes and objects. 
+
+Ihstead of writing all application functionality in one place, we divide the application into smaller, reusable structures called classes.
+
+1.1 Understanding Class and object
+
+----------------------------------------------------------------------------------------------
+| Class                                           | object                                   |
+----------------------------------------------------------------------------------------------
+| Blueprint or template                           | Instance of a class                      |
+| Defines properties and methods                  | Uses properties and methods              |
+| Does not represent an individual Instance       | Represents an actual Instance            |
+| Example: User                                   | Example: user1                           |
+----------------------------------------------------------------------------------------------
+
+1.2 How does OOP work in Dart?
+
+A. Create a class
+   Define the structure, properties and methods.
+
+   class User{
+    String name = 'Abhiram';
+   }
+
+B. Create an object
+   Create an Instance using the class. 
+
+   User user = User();
+
+C. Access properties and methods
+   use the dot( . ) operator.
+
+   print(user.name);
+
+D. Perform operations
+   Call methods to perform the required functionality. 
+
+   user.login();
+
+1.3 Advantages and Disadvantages of OOP 
+
+Advantages
+
+------------------------------------------------------------------------------------------------------------
+| Advantages                    | Explanation                                                              |
+------------------------------------------------------------------------------------------------------------
+| Code reusability              | Reuse functionality instead of writing it repeatedly.                    |
+| Maintainability               | Easier to modify and manage code                                         |
+| Modularity                    | Divide large applications into smaller classes                           |
+| Scalability                   | Easier to extend application functionality                               |
+| Flexibility                   | Polymorphism allows different implementations through common interfaces  |
+------------------------------------------------------------------------------------------------------------
+
+Disadvantages
+
+------------------------------------------------------------------------------------------------------------
+| Disadvantages                | Explanation                                                               |
+------------------------------------------------------------------------------------------------------------
+| Complexity                   | Beginners may find OOP concepts difficult                                 |
+| More boilerplate             | Sometimes requires additional classes and structures                      |
+| Overengineering              | Unnecessary classes and abstractions can make code complicated            |
+| Learning curve               | Requires understanding multiple concepts                                  |
+| Memory overhead              | Objects and their retained data consume memory                            |
+------------------------------------------------------------------------------------------------------------
+
+
+1.4 Four Pillars of OOP
+
+A. 1. Encapsulation (Protect and control data)
+B. 2. Inheritance (Reuse parent functionality)
+C. 3. Abstraction (Hide implementation details)
+D. 4. Polymorphism (One interface, different behaviours)
+
+Pillar 1: Encapsulation
+------------------------
+Definition:
+
+Encapsulation is an OOP concept that combines data and methods into a single class while controlling access to the internal data. 
+
+In simple words: Protect your data and allow access through controlled Methods
+
+Real-world example
+Imagine a bank account.
+You cannot directly change the account balance however you want. You should deposit or withdraw money through controlled operations.
+
+class BankAccount {
+    double _balance = 1000;
+
+    double get balance =>  _balance;
+
+    void deposit(double amount) {
+        if (amount > 0) {
+            _balance += amount;
+        }
+    }
+
+    void withdraw(double amount) {
+        if (amount > 0 && amount <= _balance) {
+            _balance -= amount;
+        }
+    }
+}
+
+void main() {
+    final account = BankAccount();
+
+    account.deposit(500);
+    account.withdraw(200);
+
+    print(account.balance);
+}
+
+Pillar 2: Inheritance
+---------------------
+
+Definition:
+
+Inheritance is an OOP concept that allows a child class to acquire properties and methods from a parent class using the extends keyword.
+In simple words: one class an reuse functionality from another class.
+
+Use inheritance when there is a genuine parent-child or is-a relationship.
+
+class User {
+    String name;
+
+    User(this.name);
+
+   void login(){
+     print('$name logged in');
+   }
+}
+
+class Employee extends User {
+    Employee(super.name);
+
+    void attendMeeting(){
+      print('$name attending meeting');   
+    }
+}
+
+void main(){
+    final employee = Employee("Abhiram");
+
+    employee.login();
+    employee.attendMeeting();
+}
+
+Pillar 3: Abstraction
+----------------------
+
+Definition:
+
+Abstraction is an OOP concept that hides internal implementation details and exposes only the essential functionality to the user.
+
+In simple words: Show what something does, without exposing all the details of how it works.
+
+Real-world example
+
+When you use an ATM:
+- Enter your PIN.
+- Select withdraw
+- Enter the amount
+- Receive your money
+
+You don't need to understand how the bank server processes the transaction internally. The ATM hides that complexity.
+
+Dart example:
+
+abstract class Payment {
+  void pay(double amount);
+}
+
+class UpiPayment extends Payment {
+  @override
+  void pay(double amount) {
+    print('Processing UPI payment: $amount');
+  }
+}
+
+class CardPayment extends Payment {
+  @override
+  void pay(double amount) {
+    print('Processing Card payment: $amount');
+  }
+}
+
+void main() {
+  final Payment payment = UpiPayment();
+
+  payment.pay(500);
+}
+
+Pillar 4: Polymorphism
+-----------------------
+Definition:
+
+Polymorphism is an OOP concept that allows the same interface or method to perform different behaviours depending on the actual object.
+
