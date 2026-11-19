@@ -82,9 +82,13 @@ Pillar 1: Encapsulation
 ------------------------
 Definition:
 
-Encapsulation is an OOP concept that combines data and methods into a single class while controlling access to the internal data. 
+[Encapsulation is one of the four Pillars of Objects-Oriented Programming (OOP). It is the processes of wrapping data (variable) and methods (functions) together inside a class and restricting direct access to an object's internal data. 
 
-In simple words: Protect your data and allow access through controlled Methods
+In simple words:
+Encapsulation means protecting the data inside a class and providing controlled  access to the data using methods, getter and setters.
+]
+
+
 
 Real-world example
 Imagine a bank account.
@@ -117,6 +121,40 @@ void main() {
     print(account.balance);
 }
 
+1.1 Using a private variable
+In dart, a variable or method starting with an underscore(_) is private to its library (Usually the Dart file).
+Dart Privacy is library-level, not class-level. code in the same library can still access private. 
+
+1.2 getter
+
+A getter is a special method that allows us to read or retrieve the value of a private variable without directly exposing that variable. 
+Getter = Get or Read the value. 
+
+Syntax:
+returnType get propertyName {
+  return value;
+}
+
+1.3 setter
+
+A setter is a special method that allows us to modify or update the value of a private variable with validation and controlled access.
+Setter = Set or Update the value.
+
+Syntax:
+set propertyName(dataType value) {
+  // Assign or validate value
+}
+
+---------------------------------------------------------------------------------------
+| Getter                                       | Setter                               |
+---------------------------------------------------------------------------------------
+| Used to read data                            | Used to modify data                  |
+| Retrieves a value                            | Assigns a value                      |
+| Does not require a parameter                 | Requires one parameter               |
+| Has a return type                            | Has no return type                   |
+| Uses get keyword                             | Uses set keyword                     |
+---------------------------------------------------------------------------------------
+
 Pillar 2: Inheritance
 ---------------------
 
@@ -126,6 +164,17 @@ Inheritance is an OOP concept that allows a child class to acquire properties an
 In simple words: one class an reuse functionality from another class.
 
 Use inheritance when there is a genuine parent-child or is-a relationship.
+
+
+2.1 Parent and child classes
+
+----------------------------------------------------------------------------------------
+| Concepts                 | Meaning                                                   |
+----------------------------------------------------------------------------------------
+| Parent class             | Existing class whose properties and methods are inherited |
+| Child Class              | 	New class that inherits from the parent class            |
+----------------------------------------------------------------------------------------
+
 
 class User {
     String name;
@@ -201,5 +250,130 @@ Pillar 4: Polymorphism
 -----------------------
 Definition:
 
-Polymorphism is an OOP concept that allows the same interface or method to perform different behaviours depending on the actual object.
+[Polymorphism is an OOp concept that allow the same method or interface to have different implementation depending on the object using it. 
 
+ In simple words:
+ One method name can perform different actions for different objects. (One name, multiple behaviours.)
+ The word Polymorphism comes from two Greek words:
+ Poly = Many
+ Morphism = Forms
+
+]
+class Payment {
+  void makePayment() {
+    print("Processing payment");
+  }
+}
+
+class UpiPayment extends Payment {
+ 
+  @override
+  void makePayment() {
+    print('Payment through UPI');
+  }
+}
+
+class CardPayment extends Payment {
+
+  @override
+  void makePayment() {
+    print('Payment through Credit Card');
+  }
+}
+
+
+class NetBankingPayment extends Payment {
+
+  @override
+  void makePayment() {
+    print('Payment through Net Banking');
+  }
+}
+
+Important Advantages:
+1. Code reusability - You can reuse common parent-class structures. 
+2. Flexibility - Different objects can provide different implementations. 
+3. Maintainability - You can change implementations without changing the common calling code. 
+4. Extensibility - You can add new notification types without rewriting existing calling logic. 
+5. Loose coupling - You code can depend on abstractions rather than specific implementations. 
+
+4.1. Types of Polymorphism
+A. Overloading (Compile-time/Static Polymorphism)
+B. Overriding  (Runtime/Dynamic Polymorphism)
+
+A. Compile-time Polymorphism (Method Overloading)
+Definition:
+Compile-time polymorphism is a form of polymorphism in which the method to be executed is determined during compilation based on the method signature or the arguments supplied.
+[
+  Method Overloading is the concept of defining multiple method with the same name but different parameter lists within the same class.
+  Dart does not support traditional method Overloading with multiple method having the same name but different paramenter signatures. 
+
+  How can we achieve similar functionality in Dart?
+  1. Optional positional parameters
+  2. Named optional parameters
+
+  Important: These are ways to achieve similar flexible calling behaviour. They are not traditional method overloading because only one method declaration exists. 
+]
+
+B. Runtime Polymorphism (Method Overriding)
+
+Definition:
+Runtime polymorphism is a form of polymorphism in which the method implementation that gets executed is determined at runtime based on the actual object being referenced.
+
+[
+  Method overriding occurs when a child class provides its own implementation of a method that is already defined in its parent class, using the same method name and a compatible signature.
+
+  In simple words:
+  A parent class defines a method, and a child class changes its implementation according to its requirements.
+
+  Example:
+  step 1: Create the parent class
+
+  class Employee {
+    void calculateSalary() {
+      print('Calculating employee salary');
+    }
+  }
+
+  Here:
+  - Employee is the parent class.
+  - calculateSalary() is the parent method.
+
+  Step 2: Create child classes
+
+  class Developer extends Employee {
+
+   @override
+   void calculateSalary() {
+     print('Developer salary: 50000');
+   }
+  }
+
+  class Manager extends Employee {
+
+   @override
+   void calculateSalary() {
+     print('Manager salary: 80000');
+   }
+  }
+]
+
+4.2 What is the purpose of the @override annotation?
+In Dart, @override is an annotation used to indicate that a method or member is intended to override an inherited member from a superclass or implement an interface member.
+
+
+4.3 Method Overloading vs Method Overriding
+
+Overloading = Same method name, different parameters.
+Overriding = Same inherited method, different implementation.
+------------------------------------------------------------------------------------------------------------------------------------------------------
+| Concept                  | 	Method Overloading                                        | Method Overriding                                          |
+------------------------------------------------------------------------------------------------------------------------------------------------------
+| Meaning                  | Same method name with different parameter lists            | Child provides a new implementation of inherited method    |
+| Classes                  | Traditionally within the same class                        |	Parent and child classes                                   |
+| Parameters               | Different parameter lists                                  | Same or compatible signature                               |
+| Inheritance              | Not required                                               | Required for class-based overriding                        |
+| Polymorphism             | Compile-time (traditional classification)                  | Runtime                                                    |
+| Dart support             | No traditional overloading                                 | Supported                                                  |
+| Example                  | add(int, int) and add(int, int, int)                       | Animal.sound() and Dog.sound()                             |
+------------------------------------------------------------------------------------------------------------------------------------------------------ 
