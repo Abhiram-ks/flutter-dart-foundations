@@ -377,3 +377,39 @@ Overriding = Same inherited method, different implementation.
 | Dart support             | No traditional overloading                                 | Supported                                                  |
 | Example                  | add(int, int) and add(int, int, int)                       | Animal.sound() and Dog.sound()                             |
 ------------------------------------------------------------------------------------------------------------------------------------------------------ 
+
+
+
+
+Overview of the four concepts 
+-----------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+| Concept                        | Main purpose                                                             | Dart keyword                             |
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+| Inheritance                    | Reuse functionality from a parent class                                  | extends                                  |
+| Mixins                         | Reuse behaviours from multiple sources                                   | with                                     |
+| interface                      | Define a contract that a class must implement                            | implementations                          |
+| Abstract class                 | Define a common blueprint with incomplete or shared functionality        | abstract                                 |
+-------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+First, remember these four definitions:
+
+
+
+1). Inheritance [extends]
+-------------------------
+Definition: Inheritance allows a child class to acquire and reuse accessible properties and methods from a parent class, while adding or overriding its own behaviour. 
+
+parent class -> Child class
+
+Relationship: IS-A 
+
+2) Mixin [with]
+---------------
+Definition: A mixin allows a class to reuse a collection of methods and properties from another mixin without inheriting from that mixin as its superclass
+Relationship: reusable behaviour
+
+3). Interface [implements]
+--------------------------
+Definition: An interface defines a contract that a class must fulfil by providing implementations for its required
