@@ -381,7 +381,7 @@ Overriding = Same inherited method, different implementation.
 
 
 
-Overview of the four concepts 
+ Inheritance, Mixins, Interfaces, implements and Abstract Classes  
 -----------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -394,12 +394,20 @@ Overview of the four concepts
 -------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
 First, remember these four definitions:
+- Inheritance: A child class acquires properties and methods from a parent class.
+- Mixin: A reusable collection of behaviours that can be added to multiple classes.
+- Interface: A contract that specifies what a class must implement.
+- Abstract class: A class that cannot be instantiated directly and can provide both implemented and unimplemented members.
 
 
 
 1). Inheritance [extends]
 -------------------------
-Definition: Inheritance allows a child class to acquire and reuse accessible properties and methods from a parent class, while adding or overriding its own behaviour. 
+Definition:
+Inheritance is an Object-Oriented Programming mechanism in which one class acquires the properties and behaviours of another class, allowing code reuse and the establishment of a parent-child relationship.
+
+In simple English:
+Inheritance means creating a new class using an existing class and reusing its properties and methods without rewriting the same code.
 
 parent class -> Child class
 
@@ -407,8 +415,18 @@ Relationship: IS-A
 
 2) Mixin [with]
 ---------------
-Definition: A mixin allows a class to reuse a collection of methods and properties from another mixin without inheriting from that mixin as its superclass
+Definition: 
+
+
+A mixin allows a class to reuse a collection of methods and properties from another mixin without inheriting from that mixin as its superclass
+
+A mixin allows multiple classes to share common behaviours without creating a traditional parent-child relationship.
+
 Relationship: reusable behaviour
+
+with – applies a mixin to a class so that the class can reuse its properties and methods.
+
+on - specifies which type of class is allowed to use a particular mixin. It is mainly used to define a requirement for a mixin. 
 
 3). Interface [implements]
 --------------------------
